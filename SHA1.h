@@ -100,5 +100,48 @@ int SHA1Result(
 }
 #endif//__cplusplus
 
+#ifdef __cplusplus
+class SHA1Calculator {
+private:
+	SHA1Context *context;
+
+public:
+	/** 构造函数 */
+	SHA1Calculator();
+
+	/** 析构函数 */
+	~SHA1Calculator();
+
+	/** 输入数据 */
+	void inputData(const uint8_t data[], ///< 输入数据
+			unsigned int length ///< 输入数据长度
+			);
+
+	/**
+	 * 查询累计输入数据的比特数
+	 *
+	 * @return 累计输入数据总比特数. (注: 8比特=1字节)
+	 * @retval uint64_t
+	 */
+	uint64_t getTotalDataBits();
+
+	/**
+	 * 结束输入
+	 *
+	 * @details This method function is designed as to send an input end signal
+	 * to confirm that all the data has been inputted. But implementations may
+	 * just ignore this signal.
+	 */
+	void inputEnd();
+
+	/** 取出哈希摘要结果 */
+	void getHashResult(uint8_t digest[SHA1HashSize], ///< 输出 SHA1 摘要. 调用者需预先分配足够容纳 SHA1HashSize=20 字节的空间
+			unsigned int& outSize ///< 输出数据字节数, SHA1 摘要应永远是输出 20 字节
+			);
+
+	/** 清除当前运算结果和所有中间数据 */
+	void reset();
+};
+#endif//__cplusplus
 
 #endif
