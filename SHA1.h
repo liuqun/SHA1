@@ -15,8 +15,9 @@
 * @note 关于 SHA1 哈希算法的详细描述和实现代码请查阅 RFC3174
 * @see https://tools.ietf.org/html/rfc3174
 *
-* @example example.cpp
-* 库函数调用方法请参考相应目录下的示例文件: example.cpp
+* 库函数调用方法请参考相应目录下的示例程序:
+* @example example.c 是一个 C 语言示例程序
+* @example example.cpp 是一个 C++ 语言示例程序
 */
 
 #ifndef _SHA1_H_
@@ -59,6 +60,8 @@ extern "C" {
  * 对 SHA1 上下文结构体进行复位清零
  *
  * @return shaSuccess=0 表示成功, 其他非 0 值表示错误: shaNull
+ *
+ * @example example.c 是一个 C 语言示例程序
  */
 int SHA1Reset(
 		SHA1Context *context ///< 上下文指针
@@ -68,6 +71,8 @@ int SHA1Reset(
  * 向 SHA1 上下文结构体输入数据
  *
  * @return shaSuccess=0 表示成功, 其他非 0 值表示错误: shaNull / shaInputTooLong / shaStateError
+ *
+ * @example example.c 是一个 C 语言示例程序
  */
 int SHA1Input(
 		SHA1Context *context, ///< 上下文指针
@@ -79,6 +84,8 @@ int SHA1Input(
  * 从 SHA1 上下文取出哈希摘要结果
  *
  * @return shaSuccess=0 表示成功, 其他非 0 值表示错误: shaNull / shaStateError
+ *
+ * @example example.c 是一个 C 语言示例程序
  */
 int SHA1Result(
 		SHA1Context *context, ///< 上下文指针
@@ -89,11 +96,15 @@ int SHA1Result(
  * 创建 SHA1 上下文对象
  *
  * @return 指针, 指向新创建的上下文对象
+ *
+ * @example example.c 是一个 C 语言示例程序
  */
 SHA1Context *SHA1CreateNewContext();
 
 /**
  * 删除 SHA1 上下文对象
+ *
+ * @example example.c 是一个 C 语言示例程序
  */
 void SHA1DeleteContext(SHA1Context *context ///< 上下文指针
 		);
@@ -107,6 +118,11 @@ void SHA1DeleteContext(SHA1Context *context ///< 上下文指针
 #endif // __cplusplus >= 201103L
 
 #ifdef __cplusplus
+/**
+ * 面向对象的 SHA1 哈希摘要计算器 API
+ *
+ * @example example.cpp 是一个 C++ 示例程序, 参考该示例程序可以了解本 API 使用的方法
+ */
 class SHA1 {
 private:
 	SHA1Context *context;
