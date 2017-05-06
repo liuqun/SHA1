@@ -96,6 +96,19 @@ int SHA1Result(
 		uint8_t Message_Digest[SHA1HashSize] ///< 输出 SHA1HashSize=20 字节哈希摘要
 		);
 
+/**
+ * 创建 SHA1 上下文对象
+ *
+ * @return 指针, 指向新创建的上下文对象
+ */
+SHA1Context *SHA1CreateNewContext();
+
+/**
+ * 删除 SHA1 上下文对象
+ */
+void SHA1DeleteContext(SHA1Context *context ///< 上下文指针
+		);
+
 #ifdef __cplusplus
 }
 #endif//__cplusplus

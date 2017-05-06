@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <cassert>
+#include <cstdlib>
 
 #include "SHA1.h"
 
@@ -63,4 +64,22 @@ void SHA1Calculator::getHashResult(uint8_t digest[SHA1HashSize], unsigned int& o
 
 void SHA1Calculator::reset() {
 	(void) SHA1Reset(this->context);
+}
+
+// ===========================================================================
+// SHA1 上下文的创建和释放(C 语言 API 接口)
+// ===========================================================================
+
+SHA1Context *SHA1CreateNewContext()
+{
+	SHA1Context *context;
+
+	context = (SHA1Context *) malloc(sizeof(SHA1Context));
+	SHA1Reset(context); // 默认自动执行一次复位清零
+	return context;
+}
+
+void SHA1DeleteContext(SHA1Context *context)
+{
+	free(context);
 }
