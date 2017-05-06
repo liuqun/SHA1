@@ -137,8 +137,7 @@ public:
 	void inputEnd();
 
 	/** 取出哈希摘要结果 */
-	void getHashResult(uint8_t digest[SHA1HashSize], ///< 输出 SHA1 摘要. 调用者需预先分配足够容纳 SHA1HashSize=20 字节的空间
-			unsigned int& outSize ///< 输出数据字节数, SHA1 摘要应永远是输出 20 字节
+	void getHashResult(uint8_t digest[SHA1HashSize] ///< 输出 SHA1 摘要. 调用者需预先分配足够容纳 SHA1HashSize=20 字节的空间
 			);
 
 	/** 清除当前运算结果和所有中间数据 */

@@ -53,7 +53,7 @@ void SHA1::inputEnd() {
 	/* 结束数据输入: 当前的算法实现中此处无额外处理 */
 }
 
-void SHA1::getHashResult(uint8_t digest[SHA1HashSize], unsigned int& outSize) {
+void SHA1::getHashResult(uint8_t digest[SHA1HashSize]) {
 	SHA1Context snapshot; // 保存上下文状态当前的一份 snapshot
 
 #if defined(__GNUC__)
@@ -75,7 +75,6 @@ void SHA1::getHashResult(uint8_t digest[SHA1HashSize], unsigned int& outSize) {
 	if (err) {
 		// TODO: 处理错误
 	}
-	outSize = SHA1HashSize;
 }
 
 void SHA1::reset() {
