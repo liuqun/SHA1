@@ -46,18 +46,7 @@ enum
 * This structure will hold context information for the SHA-1
 * hashing operation
 */
-typedef struct
-{
-	uint32_t Intermediate_Hash[SHA1HashSize/4]; ///< Message Digest
-	uint32_t Length_Low; ///< Message length in bits
-	uint32_t Length_High; ///< Message length in bits
-	/** Index into message block array */
-	int_least16_t Message_Block_Index;
-	uint8_t Message_Block[64]; ///< 512-bit message blocks
-	int Computed; ///< Is the digest computed?
-	int Corrupted; ///< Is the message digest corrupted?
-} SHA1Context;
-
+typedef struct _SHA1Context SHA1Context;
 
 /*
 * Function Prototypes
@@ -114,16 +103,16 @@ void SHA1DeleteContext(SHA1Context *context ///< 上下文指针
 #endif//__cplusplus
 
 #ifdef __cplusplus
-class SHA1Calculator {
+class SHA1 {
 private:
 	SHA1Context *context;
 
 public:
 	/** 构造函数 */
-	SHA1Calculator();
+	SHA1();
 
 	/** 析构函数 */
-	~SHA1Calculator();
+	~SHA1();
 
 	/** 输入数据 */
 	void inputData(const uint8_t data[], ///< 输入数据
