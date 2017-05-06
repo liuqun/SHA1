@@ -102,6 +102,10 @@ void SHA1DeleteContext(SHA1Context *context ///< 上下文指针
 }
 #endif//__cplusplus
 
+#if __cplusplus >= 201103L
+#include <array> /// @note 使用 std::array<uint8_t, 20> 需要 C++ 编译器支持 -std=c++11 选项并且 __cplusplus >= 201103L
+#endif // __cplusplus >= 201103L
+
 #ifdef __cplusplus
 class SHA1 {
 private:
@@ -139,6 +143,10 @@ public:
 	/** 取出哈希摘要结果 */
 	void getHashResult(uint8_t digest[SHA1HashSize] ///< 输出 SHA1 摘要. 调用者需预先分配足够容纳 SHA1HashSize=20 字节的空间
 			);
+	#if __cplusplus >= 201103L
+	void getHashResult(std::array<uint8_t, SHA1HashSize>& digest///< 输出 SHA1 摘要
+			);
+	#endif
 
 	/** 清除当前运算结果和所有中间数据 */
 	void reset();

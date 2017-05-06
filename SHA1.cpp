@@ -77,6 +77,12 @@ void SHA1::getHashResult(uint8_t digest[SHA1HashSize]) {
 	}
 }
 
+#if __cplusplus >= 201103L
+void SHA1::getHashResult(std::array<uint8_t, SHA1HashSize>& digest) {
+	getHashResult(digest.data());
+}
+#endif
+
 void SHA1::reset() {
 	(void) SHA1Reset(this->context);
 }
