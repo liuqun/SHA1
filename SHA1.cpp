@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <cassert>
 #include <cstdlib>
+#include <cstring> // using memset()
 
 #include "SHA1.h"
 
@@ -27,6 +28,8 @@ SHA1::SHA1() {
 }
 
 SHA1::~SHA1() {
+	(void) SHA1Reset(this->context); // 退出之前再执行 Reset() 和 memset() 清除内部残留数据
+	memset(this->context->Message_Block, 0x00, sizeof(this->context->Message_Block));
 	delete this->context;
 }
 
@@ -72,6 +75,8 @@ void SHA1::getHashResult(uint8_t digest[SHA1HashSize]) {
 	/* Note: 此处只对快照备份数据进行 padding 操作并生成摘要, 不会修改原始数据 */
 	int err;
 	err = SHA1Result(&snapshot, digest);
+	(void) SHA1Reset(&snapshot); // 通过 Reset() 和 memset() 清除 snapshot 内部残留数据
+	memset(snapshot.Message_Block, 0x00, sizeof(snapshot.Message_Block));
 	if (err) {
 		// TODO: 处理错误
 	}
