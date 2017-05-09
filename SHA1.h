@@ -22,7 +22,14 @@
 
 #ifndef _SHA1_H_
 #define _SHA1_H_
+
+#if (defined(__GNUC__) || (defined(_MSC_VER) && (_MSC_VER >= 1600)))
 #include <stdint.h>
+/*
+* GCC 始终支持 <stdint.h>
+* Mircrosoft Visual Studio 2010 以上版本(_MSC_VER >= 1600)才支持 C99 标准 <stdint.h>
+*/
+#else
 /*
 * If you do not have the ISO standard stdint.h header file, then you
 * must typdef the following:
@@ -32,6 +39,12 @@
 * int_least16_t integer of >= 16 bits
 *
 */
+#include <windef.h>
+typedef BYTE uint8_t;
+typedef DWORD uint32_t;
+typedef SHORT int_least16_t;
+#endif
+
 #ifndef _SHA_enum_
 #define _SHA_enum_
 /**
