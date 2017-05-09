@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <cstring> // using memset()
 
-#include "SHA1.h"
+#include "SHA1.hpp"
 
 /**
  * 内部结构体
