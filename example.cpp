@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "SHA1.h"
+#include "SHA1.hpp"
 
 const char *testarray[3] = {
 	"abc",
