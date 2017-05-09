@@ -36,13 +36,11 @@
 * name meaning
 * uint32_t unsigned 32 bit integer
 * uint8_t unsigned 8 bit integer (i.e., unsigned char)
-* int_least16_t integer of >= 16 bits
 *
 */
 #include <windef.h>
 typedef BYTE uint8_t;
 typedef DWORD uint32_t;
-typedef SHORT int_least16_t;
 #endif
 
 #ifndef _SHA_enum_
