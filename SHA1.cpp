@@ -15,7 +15,9 @@ struct _SHA1Context {
 	uint32_t Length_Low; ///< Message length in bits (Always stored in localhost's endian format)
 	uint32_t Length_High; ///< Message length in bits (Always stored in localhost's endian format)
 	/** Index into message block array */
-	int Message_Block_Index;
+	int Message_Block_Index; // 内部实现细节:
+	// 此处通过定义int型的Message_Block_Index强制将Message_Block[64]进行主机字对齐(对齐8字节或4字节),
+	// 子函数访问64字节数据块时按整字(8字节或4字节)访问可以加快读写速度
 	uint8_t Message_Block[64]; ///< 512-bit message blocks
 	int Computed; ///< Is the digest computed?
 	int Corrupted; ///< Is the message digest corrupted?
@@ -384,11 +386,9 @@ void SHA1ProcessMessageBlock(SHA1Context *context) {
 	/*
 	 * Initialize the first 16 words in the array W
 	 */
-	for (t = 0; t < 16; t++) {
-		W[t] = context->Message_Block[t * 4] << 24;
-		W[t] |= context->Message_Block[t * 4 + 1] << 16;
-		W[t] |= context->Message_Block[t * 4 + 2] << 8;
-		W[t] |= context->Message_Block[t * 4 + 3];
+	uint32_t *p; // Pointer to a big endian uint32_t's memory address. Note: 此处要求 context->Message_Block[64] 必须是4字节对正的内存块 否则无法快速访问
+	for (t = 0, p = (uint32_t *) (context->Message_Block); t < 16; t++, p++) {
+		W[t] = ntohl(*p);
 	}
 	for (t = 16; t < 80; t++) {
 		W[t] = SHA1CircularShift(1, (W[t - 3] ^ W[t - 8] ^ W[t - 14] ^ W[t - 16]));
