@@ -11,9 +11,9 @@
  * @note _SHA1Context 和 SHA1Context完全相同, 前缀带下划线的只在本文件内部使用
  */
 struct _SHA1Context {
-	uint32_t Intermediate_Hash[SHA1HashSize / 4]; ///< Message Digest
-	uint32_t Length_Low; ///< Message length in bits
-	uint32_t Length_High; ///< Message length in bits
+	uint32_t Intermediate_Hash[SHA1HashSize / 4]; ///< Message Digest (Always stored in localhost's endian format)
+	uint32_t Length_Low; ///< Message length in bits (Always stored in localhost's endian format)
+	uint32_t Length_High; ///< Message length in bits (Always stored in localhost's endian format)
 	/** Index into message block array */
 	int Message_Block_Index;
 	uint8_t Message_Block[64]; ///< 512-bit message blocks
@@ -376,9 +376,9 @@ void SHA1ProcessMessageBlock(SHA1Context *context) {
 			ntohl(0xD6C162CA), // =0xCA62C1D6 for little endian CPU
 			};
 	int t; /* Loop counter */
-	uint32_t temp; /* Temporary word value */
-	uint32_t W[80]; /* Word sequence */
-	uint32_t A, B, C, D, E; /* Word buffers */
+	uint32_t temp; /* Temporary word value (Always stroed in localhost's endian format)*/
+	uint32_t W[80]; /* Word sequence (Always stroed in localhost's endian format)*/
+	uint32_t A, B, C, D, E; /* Word buffers (Always stroed in localhost's endian format)*/
 	/*
 	 * Initialize the first 16 words in the array W
 	 */
