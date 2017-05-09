@@ -145,7 +145,10 @@ void SHA1DeleteContext(SHA1Context *context)
 */
 
 /* Local Function Prototyptes */
-uint32_t htonl(uint32_t x);
+#if !defined(htonl) || !defined(ntohl)
+static uint32_t htonl(uint32_t hostEndian); // Standard "host endian to net endian(big-endian)" byte order converter
+static uint32_t ntohl(uint32_t bigEndian); // Standard "net endian to host endian" byte order converter
+#endif
 static void SHA1PadMessage(SHA1Context *);
 static void SHA1ProcessMessageBlock(SHA1Context *);
 
@@ -171,11 +174,11 @@ int SHA1Reset(SHA1Context *context) {
 	context->Length_Low = 0;
 	context->Length_High = 0;
 	context->Message_Block_Index = 0;
-	context->Intermediate_Hash[0] = htonl(0x01234567);
-	context->Intermediate_Hash[1] = htonl(0x89ABCDEF);
-	context->Intermediate_Hash[2] = htonl(0xFEDCBA98);
-	context->Intermediate_Hash[3] = htonl(0x76543210);
-	context->Intermediate_Hash[4] = htonl(0xF0E1D2C3);
+	context->Intermediate_Hash[0] = ntohl(0x01234567);
+	context->Intermediate_Hash[1] = ntohl(0x89ABCDEF);
+	context->Intermediate_Hash[2] = ntohl(0xFEDCBA98);
+	context->Intermediate_Hash[3] = ntohl(0x76543210);
+	context->Intermediate_Hash[4] = ntohl(0xF0E1D2C3);
 	context->Computed = 0;
 	context->Corrupted = 0;
 	return shaSuccess;
@@ -365,12 +368,12 @@ void SHA1PadMessage(SHA1Context *context) {
  *
  */
 void SHA1ProcessMessageBlock(SHA1Context *context) {
-	/** Constants defined in SHA-1 */
+	/** Constants defined in SHA-1 (Always stroed in localhost's endian format)*/
 	const uint32_t K[] = {
-			htonl(0x9979825A), // =0x5A827999 for little endian CPU(e.g. x86)
-			htonl(0xA1EBD96E), // =0x6ED9EBA1 for little endian CPU
-			htonl(0xDCBC1B8F), // =0x8F1BBCDC for little endian CPU
-			htonl(0xD6C162CA), // =0xCA62C1D6 for little endian CPU
+			ntohl(0x9979825A), // =0x5A827999 for little endian CPU(e.g. x86)
+			ntohl(0xA1EBD96E), // =0x6ED9EBA1 for little endian CPU
+			ntohl(0xDCBC1B8F), // =0x8F1BBCDC for little endian CPU
+			ntohl(0xD6C162CA), // =0xCA62C1D6 for little endian CPU
 			};
 	int t; /* Loop counter */
 	uint32_t temp; /* Temporary word value */
