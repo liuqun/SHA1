@@ -204,6 +204,7 @@ int SHA1Reset(SHA1Context *context) {
  *
  */
 int SHA1Result(SHA1Context *context, uint8_t Message_Digest[SHA1HashSize]) {
+	uint32_t bigEndian[5]; // 存储转换回网络字节序的哈希运算结果
 	int i;
 	if (!context || !Message_Digest) {
 		return shaNull;
@@ -221,9 +222,10 @@ int SHA1Result(SHA1Context *context, uint8_t Message_Digest[SHA1HashSize]) {
 		context->Length_High = 0;
 		context->Computed = 1;
 	}
-	for (i = 0; i < SHA1HashSize; ++i) {
-		Message_Digest[i] = context->Intermediate_Hash[i >> 2] >> 8 * (3 - (i & 0x03));
+	for (i = 0; i < 5; i++) {
+		bigEndian[i] = htonl(context->Intermediate_Hash[i]);
 	}
+	memcpy(Message_Digest, (void *)bigEndian, SHA1HashSize);
 	return shaSuccess;
 }
 
