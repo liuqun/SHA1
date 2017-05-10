@@ -48,7 +48,6 @@ public:
 	 * 查询累计输入数据的比特数
 	 *
 	 * @return 累计输入数据总比特数. (注: 8比特=1字节)
-	 * @retval uint64_t
 	 */
 	uint64_t getTotalDataBits();
 
